@@ -4,7 +4,10 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="theme-color" content="#202c3c">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<title>GUNZO FACES</title>
 	<link rel="stylesheet" type="text/css" href="src/jquery.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="src/style.css">
@@ -46,15 +49,28 @@
 
 	</div>
 
-	<div class="container">
+	<div class="container mobile-container">
 		<div class="card editor-card">
-			<div class="image-editor">
-				<div class="upload-section">
-					<label for="image-input" class="upload-btn">
-						<i class="fas fa-cloud-upload-alt"></i> 选择图片
-					</label>
-					<input type="file" class="cropit-image-input" id="image-input">
-					<input type="hidden" id="image-filename">
+			<div class="mobile-tabs">
+				<span class="mobile-tab active" data-section="edit-section">图像编辑</span>
+				<span class="mobile-tab" data-section="form-section">参数设置</span>
+				<span class="mobile-tab" data-section="preview-section">预览效果</span>
+			</div>
+
+			<div class="image-editor mobile-section active" id="edit-section">
+				<div class="upload-controls">
+					<div class="upload-section">
+						<label for="image-input" class="upload-btn">
+							<i class="fas fa-cloud-upload-alt"></i> 选择图片
+						</label>
+						<input type="file" class="cropit-image-input" id="image-input">
+						<input type="hidden" id="image-filename">
+					</div>
+					<div class="edit-controls">
+						<button class="btn small rotate-ccw-btn"><i class="fas fa-undo"></i></button>
+						<button class="btn small rotate-cw-btn"><i class="fas fa-redo"></i></button>
+						<button class="btn small" id="guidelineToggle"><i class="fas fa-eye"></i> <span>ON</span></button>
+					</div>
 				</div>
 
 				<div class="cropit-preview">
@@ -62,9 +78,8 @@
 						<i class="fas fa-image"></i>
 						<p>1. 点击选择文件</p>
 						<p>2. 调整图片大小</p>
-						<p>3. 设置姓名/国籍/潜力</p>
-						<p>4. 转换图片</p>
-						<p>5. 右键保存图片</p>
+						<p>3. 设置参数</p>
+						<p>4. 生成头像</p>
 					</div>
 					<div id="Line">
 						<hr class="first" />
@@ -77,123 +92,125 @@
 					<input type="range" class="cropit-image-zoom-input">
 					<span class="zoom-label"><i class="fas fa-search-plus"></i></span>
 				</div>
+			</div>
 
-				<div class="editor-form">
-					<div class="form-group">
-						<label for="firstname">球员名称</label>
-						<input type="text" id="firstname" value="Mr.Potato" class="form-control">
-					</div>
+			<div class="editor-form mobile-section" id="form-section">
+				<div class="form-group">
+					<label for="firstname">球员名称</label>
+					<input type="text" id="firstname" value="Mr.Potato" class="form-control">
+				</div>
 
-					<div class="form-group">
-						<label for="nation">国籍</label>
-						<input type="text" list="nationlist" id="nation" name="nation" value="" class="form-control">
-						<datalist id="nationlist"></datalist>
-					</div>
+				<div class="form-group">
+					<label for="nation">国籍</label>
+					<input type="text" list="nationlist" id="nation" name="nation" value="" class="form-control">
+					<datalist id="nationlist"></datalist>
+				</div>
 
-					<div class="form-group">
-						<label for="poten">潜力（勋章）</label>
-						<select class="form-control" name="poten" id="poten">
-							<option value="filter/filter1.png" style="background:skyblue; color:white;">---潜力设置---</option>
-							<option value="" style="background:#104578; color:white;">固定潜力</option>
-							<option value="images/poten/reboot/180.png">180以上</option>
-							<option value="images/poten/reboot/170.png">170</option>
-							<option value="images/poten/reboot/160.png">160</option>
-							<option value="images/poten/reboot/150.png">150</option>
-							<option value="images/poten/reboot/140.png">140</option>
-							<option value="images/poten/reboot/130.png">130</option>
-							<option value="images/poten/reboot/120.png">120</option>
-							<option value="" style="background:#104578;color:white;">随机潜力</option>
-							<option value="images/poten/reboot/-10.png">-10</option>
-							<option value="images/poten/reboot/-95.png">-9.5</option>
-							<option value="images/poten/reboot/-9.png">-9</option>
-							<option value="images/poten/reboot/-85.png">-8.5</option>
-							<option value="images/poten/reboot/-8.png">-8</option>
-							<option value="images/poten/reboot/-75.png">-7.5</option>
-							<option value="images/poten/reboot/-7.png">-7</option>
-							<option value="" style="background:#104578;color:white;">随机人球员</option>
-							<option value="images/poten/reboot/gen/gen180.png">180以上</option>
-							<option value="images/poten/reboot/gen/gen170.png">170</option>
-							<option value="images/poten/reboot/gen/gen160.png">160</option>
-							<option value="images/poten/reboot/gen/gen150.png">150</option>
-							<option value="images/poten/reboot/gen/gen140.png">140</option>
-							<option value="images/poten/reboot/gen/gen130.png">130</option>
-							<option value="images/poten/reboot/gen/gen120.png">120</option>
-							<option value="" style="background:#104578;color:white;">其他</option>
-							<option value="images/poten/reboot/special.png">特别的</option>
-							<option value="images/poten/reboot/celeb.png">明星</option>
-							<option value="images/poten/reboot/normal.png">正常</option>
-							<option value="images/poten/reboot/staff.png">工作人员</option>
-							<option value="" style="background:#104578;color:white;">固定潜力背带风格</option>
-							<option value="images/poten/reboot_strap/180.png">背带风格 180</option>
-							<option value="images/poten/reboot_strap/170.png">背带风格 170</option>
-							<option value="images/poten/reboot_strap/160.png">背带风格 160</option>
-							<option value="images/poten/reboot_strap/150.png">背带风格 150</option>
-							<option value="images/poten/reboot_strap/140.png">背带风格 140</option>
-							<option value="images/poten/reboot_strap/130.png">背带风格 130</option>
-							<option value="images/poten/reboot_strap/120.png">背带风格 120</option>
-							<option value="" style="background:#104578;color:white;">随机潜力背带风格</option>
-							<option value="images/poten/reboot_strap/-10.png">背带风格 -10</option>
-							<option value="images/poten/reboot_strap/-95.png">背带风格 -95</option>
-							<option value="images/poten/reboot_strap/-9.png">背带风格 -9</option>
-							<option value="images/poten/reboot_strap/-85.png">背带风格 -85</option>
-							<option value="images/poten/reboot_strap/-8.png">背带风格 -8</option>
-							<option value="images/poten/reboot_strap/-75.png">背带风格 -75</option>
-							<option value="images/poten/reboot_strap/-7.png">背带风格 -7</option>
-							<option value="" style="background:#104578;color:white;">背带风格 其他</option>
-							<option value="images/poten/reboot_strap/celeb.png">背带风格 明星</option>
-							<option value="images/poten/reboot_strap/legend.png">背带风格 传奇</option>
-							<option value="images/poten/reboot_strap/staff.png">背带风格 工作人员</option>
-							<option value="images/poten/reboot_strap/normal.png">背带风格 正常</option>
-						</select>
-					</div>
+				<div class="form-group">
+					<label for="poten">潜力（勋章）</label>
+					<select class="form-control" name="poten" id="poten">
+						<option value="filter/filter1.png" style="background:skyblue; color:white;">---潜力设置---</option>
+						<option value="" style="background:#104578; color:white;">固定潜力</option>
+						<option value="images/poten/reboot/180.png">180以上</option>
+						<option value="images/poten/reboot/170.png">170</option>
+						<option value="images/poten/reboot/160.png">160</option>
+						<option value="images/poten/reboot/150.png">150</option>
+						<option value="images/poten/reboot/140.png">140</option>
+						<option value="images/poten/reboot/130.png">130</option>
+						<option value="images/poten/reboot/120.png">120</option>
+						<option value="" style="background:#104578;color:white;">随机潜力</option>
+						<option value="images/poten/reboot/-10.png">-10</option>
+						<option value="images/poten/reboot/-95.png">-9.5</option>
+						<option value="images/poten/reboot/-9.png">-9</option>
+						<option value="images/poten/reboot/-85.png">-8.5</option>
+						<option value="images/poten/reboot/-8.png">-8</option>
+						<option value="images/poten/reboot/-75.png">-7.5</option>
+						<option value="images/poten/reboot/-7.png">-7</option>
+						<option value="" style="background:#104578;color:white;">随机人球员</option>
+						<option value="images/poten/reboot/gen/gen180.png">180以上</option>
+						<option value="images/poten/reboot/gen/gen170.png">170</option>
+						<option value="images/poten/reboot/gen/gen160.png">160</option>
+						<option value="images/poten/reboot/gen/gen150.png">150</option>
+						<option value="images/poten/reboot/gen/gen140.png">140</option>
+						<option value="images/poten/reboot/gen/gen130.png">130</option>
+						<option value="images/poten/reboot/gen/gen120.png">120</option>
+						<option value="" style="background:#104578;color:white;">其他</option>
+						<option value="images/poten/reboot/special.png">特别的</option>
+						<option value="images/poten/reboot/celeb.png">明星</option>
+						<option value="images/poten/reboot/normal.png">正常</option>
+						<option value="images/poten/reboot/staff.png">工作人员</option>
+						<option value="" style="background:#104578;color:white;">固定潜力背带风格</option>
+						<option value="images/poten/reboot_strap/180.png">背带风格 180</option>
+						<option value="images/poten/reboot_strap/170.png">背带风格 170</option>
+						<option value="images/poten/reboot_strap/160.png">背带风格 160</option>
+						<option value="images/poten/reboot_strap/150.png">背带风格 150</option>
+						<option value="images/poten/reboot_strap/140.png">背带风格 140</option>
+						<option value="images/poten/reboot_strap/130.png">背带风格 130</option>
+						<option value="images/poten/reboot_strap/120.png">背带风格 120</option>
+						<option value="" style="background:#104578;color:white;">随机潜力背带风格</option>
+						<option value="images/poten/reboot_strap/-10.png">背带风格 -10</option>
+						<option value="images/poten/reboot_strap/-95.png">背带风格 -95</option>
+						<option value="images/poten/reboot_strap/-9.png">背带风格 -9</option>
+						<option value="images/poten/reboot_strap/-85.png">背带风格 -85</option>
+						<option value="images/poten/reboot_strap/-8.png">背带风格 -8</option>
+						<option value="images/poten/reboot_strap/-75.png">背带风格 -75</option>
+						<option value="images/poten/reboot_strap/-7.png">背带风格 -7</option>
+						<option value="" style="background:#104578;color:white;">背带风格 其他</option>
+						<option value="images/poten/reboot_strap/celeb.png">背带风格 明星</option>
+						<option value="images/poten/reboot_strap/legend.png">背带风格 传奇</option>
+						<option value="images/poten/reboot_strap/staff.png">背带风格 工作人员</option>
+						<option value="images/poten/reboot_strap/normal.png">背带风格 正常</option>
+					</select>
+				</div>
 
-					<div class="form-group">
-						<label for="imgf">照片滤镜</label>
-						<select class="form-control" name="imgf" id="imgf">
-							<option value="filter/filter1.png">没有滤镜</option>
-							<option value="filter/filter2.png">滤镜1</option>
-							<option value="filter/filter3.png">滤镜2</option>
-							<option value="filter/filter4.png">滤镜3</option>
-						</select>
-					</div>
+				<div class="form-group">
+					<label for="imgf">照片滤镜</label>
+					<select class="form-control" name="imgf" id="imgf">
+						<option value="filter/filter1.png">没有滤镜</option>
+						<option value="filter/filter2.png">滤镜1</option>
+						<option value="filter/filter3.png">滤镜2</option>
+						<option value="filter/filter4.png">滤镜3</option>
+					</select>
+				</div>
 
-					<div class="form-group">
-						<label for="fontf">字体颜色</label>
-						<input type="color" list="fontcolorlist" name="fontf" id="fontf" value="#ffd700" class="form-control color-picker">
-						<datalist id="fontcolorlist">
-							<option value="#ffd700">金色</option>
-							<option value="#c0c0c0">银色</option>
-							<option value="#7b68ee">The Blue Lagoon</option>
-							<option value="#b0e0e6">#b0e0e6</option>
-							<option value="#f0c27b">#f0c27b</option>
-							<option value="#abbaab">Metallic Toad</option>
-						</datalist>
-					</div>
+				<div class="form-group">
+					<label for="fontf">字体颜色</label>
+					<input type="color" list="fontcolorlist" name="fontf" id="fontf" value="#ffd700" class="form-control color-picker">
+					<datalist id="fontcolorlist">
+						<option value="#ffd700">金色</option>
+						<option value="#c0c0c0">银色</option>
+						<option value="#7b68ee">The Blue Lagoon</option>
+						<option value="#b0e0e6">#b0e0e6</option>
+						<option value="#f0c27b">#f0c27b</option>
+						<option value="#abbaab">Metallic Toad</option>
+					</datalist>
+				</div>
 
-					<div class="form-group">
-						<label for="fontw">字体长度</label>
-						<select class="form-control" name="fontw" id="fontw">
-							<option value="base">-- 基本 --</option>
-							<option value="long">长名 LONG</option>
-							<option value="strap">背带风格 STRAP</option>
-						</select>
-					</div>
+				<div class="form-group">
+					<label for="fontw">字体长度</label>
+					<select class="form-control" name="fontw" id="fontw">
+						<option value="base">-- 基本 --</option>
+						<option value="long">长名 LONG</option>
+						<option value="strap">背带风格 STRAP</option>
+					</select>
+				</div>
 
-					<div class="form-group">
-						<label for="madeby">制作者签名</label>
-						<input type="text" id="madeby" value="gzreboot" class="form-control">
-					</div>
+				<div class="form-group">
+					<label for="madeby">制作者签名</label>
+					<input type="text" id="madeby" value="gzreboot" class="form-control">
 				</div>
 			</div>
 		</div>
 
-		<div class="card controls-card">
+		<div class="card controls-card mobile-section" id="preview-section">
 			<div class="image-controls">
-				<button class="btn rotate-ccw-btn"><i class="fas fa-undo"></i> 逆时旋转</button>
-				<button class="btn rotate-cw-btn"><i class="fas fa-redo"></i> 顺时旋转</button>
+				<div class="preview-header">
+					<h3><i class="fas fa-image"></i> 预览效果</h3>
+					<p>右键单击下面的图像 <span class="highlight">将图像另存为</span></p>
+				</div>
 				
-				<div class="guidelines-controls">
-					<button class="btn" id="guidelineToggle"><i class="fas fa-eye"></i> 基准线 <span>ON</span></button>
+				<div class="canvas-container">
+					<canvas id="canvas" width="350" height="350"></canvas>
 				</div>
 				
 				<div class="action-buttons">
@@ -206,16 +223,11 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div class="card preview-card">
-			<div class="preview-header">
-				<h3><i class="fas fa-image"></i> 预览效果</h3>
-				<p>右键单击下面的图像 <span class="highlight">将图像另存为</span></p>
-			</div>
-			<div class="canvas-container">
-				<canvas id="canvas" width="350" height="350"></canvas>
-			</div>
-		</div>
+	<div class="mobile-footer">
+		<button class="btn mobile-action export"><i class="fas fa-magic"></i> 生成头像</button>
+		<button class="btn mobile-action" id="mobile-download-btn"><i class="fas fa-download"></i> 下载图片</button>
 	</div>
 
 	<script>
@@ -262,6 +274,39 @@
 				guidelineToggle.querySelector('i').className = 'fas fa-eye-slash';
 			}
 		});
+		
+		// 移动端标签页切换
+		var mobileTabs = document.querySelectorAll('.mobile-tab');
+		var mobileSections = document.querySelectorAll('.mobile-section');
+		
+		mobileTabs.forEach(function(tab) {
+			tab.addEventListener('click', function() {
+				var sectionId = this.getAttribute('data-section');
+				
+				// 移除所有标签和区域的active类
+				mobileTabs.forEach(function(t) {
+					t.classList.remove('active');
+				});
+				
+				mobileSections.forEach(function(section) {
+					section.classList.remove('active');
+				});
+				
+				// 激活当前标签和对应区域
+				this.classList.add('active');
+				document.getElementById(sectionId).classList.add('active');
+			});
+		});
+		
+		// 移动端下载按钮同步
+		var mobileDownloadBtn = document.getElementById('mobile-download-btn');
+		var downloadBtn = document.getElementById('download-btn');
+		
+		if(mobileDownloadBtn) {
+			mobileDownloadBtn.addEventListener('click', function() {
+				downloadBtn.click();
+			});
+		}
 	</script>
 </body>
 
